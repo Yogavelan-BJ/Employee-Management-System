@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -11,8 +11,9 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
+import { collection, doc, getDocs } from "firebase/firestore";
 
 const defaultTheme = createTheme();
 
@@ -21,12 +22,30 @@ export default function Login() {
   const [password, setPassword] = useState();
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
+  const [adminMails, setAdminMails] = useState();
+  useEffect(() => {
+    const fetch = async () => {
+      const AdminCollectionRef = collection(db, "Admins");
+      const Admins = await getDocs(AdminCollectionRef);
+      let AdminList = [];
+      Admins.forEach((doc) => {
+        AdminList.push(doc.data()["Mail"]);
+      });
+      setAdminMails(AdminList);
+    };
+    fetch();
+  }, []);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
       const user = await signInWithEmailAndPassword(auth, userid, password);
       setStatus("success");
-      navigate("/auth/Admin-Dashboard");
+      if (adminMails.includes(userid)) {
+        navigate("/auth/Admin-Dashboard");
+      } else {
+        navigate("/auth/User-Dashboard", { state: { userid } });
+      }
     } catch (err) {
       setStatus(err.message);
     }

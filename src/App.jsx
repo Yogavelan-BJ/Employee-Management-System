@@ -5,6 +5,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AdminDashboard from "./Components/AdminDashboard";
 import UserDashboard from "./Components/UserDashboard";
 import Auth from "./Components/Auth";
+import AddEmployee from "./Components/AddEmployee";
+import ManageEmployee from "./Components/ManageEmployee";
 
 function App() {
   return (
@@ -14,6 +16,14 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/auth" element={<Auth />}>
           <Route path="/auth/Admin-dashboard" element={<AdminDashboard />} />
+          <Route
+            path="/auth/Admin-dashboard/AddEmployee"
+            element={<AddEmployee />}
+          />
+          <Route
+            path="/auth/Admin-dashboard/manage"
+            element={<ManageEmployee />}
+          />
           <Route path="/auth/User-dashboard" element={<UserDashboard />} />
         </Route>
       </Routes>
