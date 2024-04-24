@@ -13,7 +13,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { auth, db } from "../firebase-config";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, getDocs } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 const defaultTheme = createTheme();
 

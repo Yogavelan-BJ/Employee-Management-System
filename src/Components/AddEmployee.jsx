@@ -10,7 +10,6 @@ function AddEmployee() {
   const [Position, setPosition] = useState("");
   const [Employment, setEmployment] = useState("");
   const [Salary, setSalary] = useState("");
-  const [Attendance, setAttendance] = useState("");
   const [Mail, setMail] = useState("");
   const handleSubmit = async (e) => {
     try {
@@ -25,7 +24,6 @@ function AddEmployee() {
       });
       alert("Employee Added Successfully");
       setID("");
-      setAttendance("");
       setEmployment("");
       setMail("");
       setName("");
