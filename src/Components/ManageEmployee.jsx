@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 import { PieChart, pieArcLabelClasses } from "@mui/x-charts";
@@ -16,10 +16,19 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { collection, doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase-config";
 
 function ManageEmployee() {
+  const [SalaryData, setSalaryData] = useState();
+  useEffect(() => {
+    const getdata = async () => {
+      const docRef = doc(db, `/Employees/${ID}/EmployeeSalary`, "Splitup");
+      const docSnap = await getDoc(docRef);
+      setSalaryData(docSnap.data());
+    };
+    getdata();
+  }, []);
   const loc = useLocation();
   const [checked, setChecked] = useState(true);
   const [date, setDate] = useState(dayjs());
@@ -295,7 +304,7 @@ function ManageEmployee() {
             </form>
           </Box>
         </Box>
-        <SalaryComp ID={ID} />
+        {SalaryData ? <SalaryComp props={{ ...SalaryData, ID: ID }} /> : <></>}
       </Box>
     </div>
   );

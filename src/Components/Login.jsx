@@ -23,15 +23,23 @@ export default function Login() {
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
   const [adminMails, setAdminMails] = useState();
+  const [empids, setEmpids] = useState();
   useEffect(() => {
     const fetch = async () => {
       const AdminCollectionRef = collection(db, "Admins");
+      const EmpCollectionRef = collection(db, "Employees");
       const Admins = await getDocs(AdminCollectionRef);
+      const Employees = await getDocs(EmpCollectionRef);
       let AdminList = [];
+      let Emps = {};
       Admins.forEach((doc) => {
         AdminList.push(doc.data()["Mail"]);
       });
+      Employees.forEach((doc) => {
+        Emps[`${doc.data()["Mail"]}`] = doc.data()["ID"];
+      });
       setAdminMails(AdminList);
+      setEmpids(Emps);
     };
     fetch();
   }, []);
@@ -44,7 +52,7 @@ export default function Login() {
       if (adminMails.includes(userid)) {
         navigate("/auth/Admin-Dashboard");
       } else {
-        navigate("/auth/User-Dashboard", { state: { userid } });
+        navigate("/auth/User-Dashboard", { state: { ID: empids[userid] } });
       }
     } catch (err) {
       setStatus(err.message);

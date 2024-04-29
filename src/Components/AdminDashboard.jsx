@@ -31,36 +31,38 @@ export default function AdminDashboard() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AdminHeader />
-      <TableContainer component={Paper} sx={{ width: "500px" }}>
-        <Table sx={{ minWidth: 500 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell align="right">Name</TableCell>
-              <TableCell align="right">Position</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((row) => (
-              <TableRow
-                key={row.ID}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.ID}
-                </TableCell>
-                <TableCell align="right">{row.Name}</TableCell>
-                <TableCell align="right">{row.Position}</TableCell>
-                <TableCell align="right">
-                  <Link to="/auth/Admin-dashboard/manage" state={row}>
-                    <Button>Manage</Button>
-                  </Link>
-                </TableCell>
+      <Box sx={{ display: "flex", justifyContent: "center", margin: "10px" }}>
+        <TableContainer component={Paper} sx={{ width: "500px" }}>
+          <Table sx={{ minWidth: 500 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>ID</TableCell>
+                <TableCell align="right">Name</TableCell>
+                <TableCell align="right">Position</TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+            </TableHead>
+            <TableBody>
+              {data.map((row) => (
+                <TableRow
+                  key={row.ID}
+                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    {row.ID}
+                  </TableCell>
+                  <TableCell align="right">{row.Name}</TableCell>
+                  <TableCell align="right">{row.Position}</TableCell>
+                  <TableCell align="right">
+                    <Link to="/auth/Admin-dashboard/manage" state={row}>
+                      <Button>Manage</Button>
+                    </Link>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Box>
     </Box>
   );
 }
